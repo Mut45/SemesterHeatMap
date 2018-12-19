@@ -1,17 +1,5 @@
-from flask import Flask
-from flask import request, render_template, jsonify
-from config import Config
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-import json
-
-
-app = Flask(__name__)
-app.config.from_object(Config)
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-from app import routes, models
-
+from app import app
+from flask import render_template,request,jsonify
 
 @app.route('/')
 def calendar():
@@ -27,12 +15,8 @@ def return_data():
     # but since no db or any real storage is implemented I'm just
     # returning data from a text file that contains json elements
 
-    with open("flaskcalendar/events.json", "r") as input_data:
+    with open("app/events.json", "r") as input_data:
         # you should use something else here than just plaintext
         # check out jsonfiy method or the built in json module
         # http://flask.pocoo.org/docs/0.10/api/#module-flask.json
         return input_data.read()
-
-if __name__ == '__main__':
-    app.debug = True
-    app.run()

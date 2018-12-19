@@ -1,7 +1,7 @@
 from app import db
 
 
-class User(db.Model):
+class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), index=False, unique=False)
     start = db.Column(db.TIMESTAMP, index=False, unique=False)
@@ -12,4 +12,4 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<Assignment {}:{}, start:{}, end:{}>'.format(self.id,self.title,self.start,self.end)
