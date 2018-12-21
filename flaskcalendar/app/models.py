@@ -1,14 +1,15 @@
 from app import db
 from datetime import datetime
-
+# Note: foriegn key constraints are not added due to the fact that SQLite is not enforcing it anyway and its causing
+# the migration to fail
 class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), index=False, unique=False)
     start = db.Column(db.DateTime, index=False, unique=False)
     end = db.Column(db.DateTime, index=False, unique=False)
     weight = db.Column(db.String(64), index=False, unique=False)
-    course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('admin.id'))
+    course_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer)
     time_stamp = db.Column(db.DateTime, index=True, default= datetime.utcnow)
 
     #password_hash = db.Column(db.String(128))
