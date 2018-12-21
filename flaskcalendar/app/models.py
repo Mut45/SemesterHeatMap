@@ -35,6 +35,7 @@ class Course(db.Model):
 class Admin(db.Model):
     __tablename__ = 'admin'
     id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64))
     password_hash = db.Column(db.String(128))
     assignments = db.relationship('Assignment',backref = 'author',lazy= 'dynamic',primaryjoin = "Assignment.user_id ==Admin .id") # The lazy argument defines how the database query for the relationship will be issued
     def __repr__(self):
