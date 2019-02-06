@@ -1,6 +1,8 @@
 from app import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+
 # Note: foriegn key constraints are not added due to the fact that SQLite is not enforcing it anyway and its causing
 # the migration to fail
 class Assignment(db.Model):
@@ -32,7 +34,7 @@ class Course(db.Model):
         return '<Course {}:{}, session:{}>'.format(self.id,self.title,self.session)
 
 
-class Admin(db.Model):
+class Admin(UserMixin,db.Model):
     __tablename__ = 'admin'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64))

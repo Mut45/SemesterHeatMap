@@ -3,28 +3,31 @@ from app import db
 from app.models import Admin,Course,Assignment
 from flask import render_template,request,jsonify,flash,redirect,session,abort
 import hashlib
-from flask_login import LoginManager
-from flask_security import login_required
+from app import login
 
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 @app.route('/')
-@app.route('/add')
-def add():
-    users = Admin.query.all()
-    u = User(username='john', email='john@example.com')
+# @app.route('/add')
+# def add():
+#     users = Admin.query.all()
+#     u = User(username='john', email='john@example.com')
 @app.route('/index')
 def calendar():
-    if not session.get('logged_in'):
-        return render_template("login.html")
-    else:
-        return render_template("json.html")
+    # if not session.get('logged_in'):
+    #     return render_template("login.html")
+    # else:
+    #     return render_template("json.html")
+    return render_template("json.html")
 
 @app.route('/login',methods=['GET',"POST"])
 def login():
-    users = Admin.query.all()
-    print users
     if request.method == "POST":
-        flash('yes')
+        # if current_user.is_authenticated:
+        #     return redirect(url_for('index'))
+        #
 
         user = Admin.query.filter_by(username=request.form["username"]).first()
         if(user!= None):
