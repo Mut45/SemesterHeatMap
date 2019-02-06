@@ -1,5 +1,6 @@
 from app import db
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 # Note: foriegn key constraints are not added due to the fact that SQLite is not enforcing it anyway and its causing
 # the migration to fail
 class Assignment(db.Model):
@@ -13,7 +14,6 @@ class Assignment(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey('admin.id'))
     time_stamp = db.Column(db.DateTime, index=True, default= datetime.utcnow)
 
-    #password_hash = db.Column(db.String(128))
 
     def __repr__(self):
         return '<Assignment {}:{}, start:{}, end:{}>'.format(self.id,self.title,self.start,self.end)
@@ -38,5 +38,9 @@ class Admin(db.Model):
     username = db.Column(db.String(64))
     password_hash = db.Column(db.String(128))
     assignments = db.relationship('Assignment',backref = 'author',lazy= 'dynamic',primaryjoin = "Assignment.user_id ==Admin .id") # The lazy argument defines how the database query for the relationship will be issued
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
     def __repr__(self):
         return '<Admin {}>'.format(self.id)

@@ -1,9 +1,53 @@
 from app import app
-from flask import render_template,request,jsonify
+from app import db
+from app.models import Admin,Course,Assignment
+from flask import render_template,request,jsonify,flash,redirect,session,abort
+import hashlib
+from flask_login import LoginManager
+from flask_security import login_required
+
 
 @app.route('/')
+@app.route('/add')
+def add():
+    users = Admin.query.all()
+    u = User(username='john', email='john@example.com')
+@app.route('/index')
 def calendar():
-    return render_template("json.html")
+    if not session.get('logged_in'):
+        return render_template("login.html")
+    else:
+        return render_template("json.html")
+
+@app.route('/login',methods=['GET',"POST"])
+def login():
+    users = Admin.query.all()
+    print users
+    if request.method == "POST":
+        flash('yes')
+
+        user = Admin.query.filter_by(username=request.form["username"]).first()
+        if(user!= None):
+            pass_hash = user.password_hash
+            input_pass = request.form['password']
+            input_hash =  hashlib.md5(input_pass.encode())
+            print '1'
+            if(input_hash == user.password_hash):
+                session["logged_in"] = True
+                session["username"] = request.form["username"]
+                flash("You are now logged in")
+                print '2'
+                return redirect(url_for('index'))
+            else:
+                flash("Your password is incorrect.")
+        else:
+            print 'no'
+            flash("Your username is incorrect.")
+    print '3'
+    return calendar()
+
+
+
 
 
 @app.route('/data')
