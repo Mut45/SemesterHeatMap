@@ -11,8 +11,9 @@ import json
 
 app = Flask(__name__)
 app.config.from_object(Config)
-app.secret_key = b'?d??R???kq@XJD=?'
+# app.secret_key = b'?d??R???kq@XJD=?'
 login = LoginManager(app)
+login.login_view = 'login'  #Force user back to the login screen if they are not logged in
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 

@@ -15,7 +15,8 @@ You're logged in already!
   </div>
   {% endif %}
 {% endwith %}
-<form action="/login" method="POST">
+<form action="" method="POST" novalidate>
+{{ form.hidden_tag() }}
 <div class="login">
 <div class="login-screen">
 <div class="app-title">
@@ -23,12 +24,22 @@ You're logged in already!
 </div>
 <div class="login-form">
 <div class="control-group">
-  <input type="text" class="login-field" value="" placeholder="username" name="username">
+  {{ form.username.label }}
+  {{ form.username(size=32,class="login-field") }}
+
+  <!-- <input type="text" class="login-field" value="" placeholder="username" name="username"> -->
 <label class="login-field-icon fui-user" for="login-name"></label></div>
+
 <div class="control-group">
-  <input type="password" class="login-field" value="" placeholder="password" name="password">
+  {{ form.password.label }}
+  {{ form.password(size=32) }}
+  <!-- <input type="password" class="login-field" value="" placeholder="password" name="password"> -->
+<div class = "contro-group">
+{{ form.remember_me() }} {{ form.remember_me.label }}
+</div>
 <label class="login-field-icon fui-lock" for="login-pass"></label></div>
-<input type="submit" value="Log in" class="btn btn-primary btn-large btn-block">
+{{ form.submit(class="btn btn-primary btn-large btn-block") }}
+<!-- <input type="submit" value="Log in" class="btn btn-primary btn-large btn-block"> -->
 
 </div>
 </div>
