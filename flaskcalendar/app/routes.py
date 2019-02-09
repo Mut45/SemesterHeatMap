@@ -15,18 +15,12 @@ def load_user(id):
 @app.route('/')
 def home():
     return redirect(url_for('login'))
-# @app.route('/add')
-# def add():
-#     users = Admin.query.all()
-#     u = User(username='john', email='john@example.com')
+
 @app.route('/index')
 def index():
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
-    # if not session.get('logged_in'):
-    #     return render_template("login.html")
-    # else:
-    #     return render_template("json.html")
+
     return render_template("json.html")
 
 @app.route('/login',methods=['GET',"POST"])
@@ -43,26 +37,6 @@ def login():
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 
-
-    #     user = Admin.query.filter_by(username=request.form["username"]).first()
-    #     if(user!= None):
-    #         pass_hash = user.password_hash
-    #         input_pass = request.form['password']
-    #         input_hash =  hashlib.md5(input_pass.encode())
-    #         print '1'
-    #         if(input_hash == user.password_hash):
-    #             session["logged_in"] = True
-    #             session["username"] = request.form["username"]
-    #             flash("You are now logged in")
-    #             print '2'
-    #             return redirect(url_for('index'))
-    #         else:
-    #             flash("Your password is incorrect.")
-    #     else:
-    #         print 'no'
-    #         flash("Your username is incorrect.")
-    # print '3'
-    # return calendar()
 
 @app.route('/logout')
 def logout():
