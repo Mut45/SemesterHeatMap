@@ -1,0 +1,63 @@
+<!-- /templates/table.html  -->
+
+  {% extends 'base.html' %}
+
+  {% block content %}
+      <form method="POST" id="target">
+          <div class="form-group">
+              <input type="text" class="form-control" name="title" placeholder="Title">
+          </div>
+          <div class="form-group">
+              <input type="text" class="form-control" name="course_id" placeholder="CRN">
+          </div>
+          <div class="form-group">
+              <input
+                 type="text"
+                 class="form-control datetime"
+                 name="start"
+                 placeholder="Start"
+              >
+          </div>
+          <div class="form-group">
+              <input
+                type="text"
+                class="form-control datetime"
+                name="end"
+                placeholder="End"
+              >
+          </div>
+          <div class="form-group">
+              <input type="text" class="form-control" name="weight" placeholder="Weight">
+          </div>
+          <button type="submit" class="btn btn-block btn-primary">Submit</button>
+      </form>
+
+      <br />
+
+      <div class="table-responsive">
+          <table class="table" id="assignments">
+              <thead>
+                  <tr>
+                      <th scope="col">Title</th>
+                      <th scope="col">CRN</th>
+                      <th scope="col">Start</th>
+                      <th scope="col">Due</th>
+                      <th scope="col">Weight</th>
+                      <th scope="col">Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for a in assignments %}
+                  <tr id={{ a.id }}>
+                      <th scope="row">{{ a.title }}</th>
+                      <td> {{a.course_id }} </td>
+                      <td> {{ a.start }} </td>
+                      <td> {{ a.end }} </td>
+                      <td> {{ a.weight }} </td>
+                      <td> <a href="/edit/{{ assignment.id }}">Edit</a> </td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  {% endblock %}

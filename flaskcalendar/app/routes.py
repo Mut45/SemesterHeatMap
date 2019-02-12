@@ -16,6 +16,27 @@ def load_user(id):
 def home():
     return redirect(url_for('login'))
 
+@app.route('/backend', methods=["POST", "GET"])
+def backend():
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
+
+    if request.method == "POST":
+            title = request.form["title"]
+            couse_id = request.form["course_id"]
+            start = datetime.strptime(request.form['start'], '%d-%m-%Y %H:%M %p')
+            end = datetime.strptime(request.form['end'], '%d-%m-%Y %H:%M %p')
+            weight = request.form["weight"]
+            new_assignment = Assignment(title=title, course_id=course_id, start=start,weight=weight , end=end,user_id=cuurrent_user.get_id())
+            db_session.add(new_assignment)
+            db_session.commit()
+
+            return redirect("/backend", code=200)
+    else:
+            assignments = Assignment.query.all()
+            return render_template('table.html', assignments=assignments)
+
+
 @app.route('/index')
 def index():
     if not current_user.is_authenticated:
