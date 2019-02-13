@@ -6,6 +6,7 @@ from flask_login import current_user, login_user, logout_user
 from app.models import Admin,Course,Assignment
 from flask import render_template,request,jsonify,flash,redirect,session,abort
 import hashlib
+from datetime import datetime
 from app import login
 
 @login.user_loader
@@ -23,13 +24,13 @@ def backend():
 
     if request.method == "POST":
             title = request.form["title"]
-            couse_id = request.form["course_id"]
+            course_id = request.form["course_id"]
             start = datetime.strptime(request.form['start'], '%d-%m-%Y %H:%M %p')
             end = datetime.strptime(request.form['end'], '%d-%m-%Y %H:%M %p')
             weight = request.form["weight"]
-            new_assignment = Assignment(title=title, course_id=course_id, start=start,weight=weight , end=end,user_id=cuurrent_user.get_id())
-            db_session.add(new_assignment)
-            db_session.commit()
+            new_assignment = Assignment(title=title, course_id=course_id, start=start,weight=weight , end=end,user_id=current_user.get_id())
+            db.session.add(new_assignment)
+            db.session.commit()
 
             return redirect("/backend", code=200)
     else:
